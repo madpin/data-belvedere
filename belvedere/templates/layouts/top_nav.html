@@ -1,0 +1,21 @@
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+
+              <div class="title_left">
+                <h3>{% block header_title %}{% endblock %}</h3>
+              </div>
+
+              <ul class="nav navbar-nav navbar-right">
+                {% include "layouts/top_nav_profile.html" %}
+
+                {% include "layouts/top_nav_presentation.html" %}
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <!-- /top navigation -->  

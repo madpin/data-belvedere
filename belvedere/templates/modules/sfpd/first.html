@@ -1,0 +1,104 @@
+{% extends 'layouts/main.html' %} 
+
+{% block title %} - SFPD Analysis{% endblock %}
+
+{% block js_includes_end %}
+
+<script src="{{ url_for('static', filename='vendors/highcharts/code/highcharts.js') }}"></script>
+
+
+<script type="text/javascript">
+  $.getJSON('http://127.0.0.1:5000/sfpd/first_json/', function (data) {
+    console.log(data['full_timeseries']['values'])
+    Highcharts.chart('container', {
+        chart: {
+            zoomType: 'x'
+        },
+        title: {
+            text: ''
+        },
+        subtitle: {
+            text: document.ontouchstart === undefined ?
+                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        yAxis: {
+            title: {
+                text: 'Incidents'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            area: {
+                fillColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                    ]
+                },
+                marker: {
+                    radius: 2
+                },
+                lineWidth: 1,
+                states: {
+                    hover: {
+                        lineWidth: 1
+                    }
+                },
+                threshold: null
+            }
+        },
+
+        series: [{
+            type: 'area',
+            name: 'Incidents in SF',
+            data: data['full_timeseries']['values']
+        }]
+    });
+});
+</script>
+{% endblock %}
+
+
+{% block content %}
+
+ <div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>SFPD Incidents Timeseries</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Settings 12</a>
+              </li>
+              <li><a href="#">Settings 22</a>
+              </li>
+            </ul>
+          </li>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div id="container" class="x_content">
+          Add content to the page ...2
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
